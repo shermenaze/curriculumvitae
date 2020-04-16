@@ -477,7 +477,7 @@ SkinnedMeshRenderer:
   m_Quality: 0
   m_UpdateWhenOffscreen: 0
   m_SkinnedMotionVectors: 1
-  m_Mesh: {fileID: -7609843437725348251, guid: 4d59c799e8152dc4cace57946ef48d7c, type: 3}
+  m_Mesh: {fileID: -7609843437725348251, guid: eb81e04e8506e4e4faf3714cadb766ef, type: 3}
   m_Bones:
   - {fileID: 1665185123213773632}
   - {fileID: 793589721633925581}
@@ -1011,6 +1011,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4645112147282392553}
   - component: {fileID: 8296172668510050639}
+  - component: {fileID: 1616037093664055381}
+  - component: {fileID: 6791282088598599641}
   - component: {fileID: 8296172668510050640}
   - component: {fileID: 8296172668510050641}
   - component: {fileID: 8296172668510050642}
@@ -1057,6 +1059,36 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!54 &1616037093664055381
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515630953254127610}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &6791282088598599641
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8515630953254127610}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.28
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 1, z: 0}
 --- !u!114 &8296172668510050640
 MonoBehaviour:
   m_ObjectHideFlags: 0
