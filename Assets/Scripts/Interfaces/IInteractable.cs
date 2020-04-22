@@ -1,5 +1,5 @@
 ﻿public interface IInteractable
 {
     void Interact();
-    void Highlight();
+    void Highlight(bool shouldHighlight);
 }

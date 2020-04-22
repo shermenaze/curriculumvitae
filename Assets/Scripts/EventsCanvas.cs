@@ -8,7 +8,7 @@ public class EventsCanvas : MonoBehaviour
 
     private void Start()
     {
-        Signals.Get<SpeakAreaEntered>().AddListener(StartText);
+        Signals.Get<AreaActiveZoneEntered>().AddListener(StartText);
         Signals.Get<TextEndSignal>().AddListener(UnblockRays);
         
         Signals.Get<NotificationSent>().AddListener(SendNotification);
@@ -46,7 +46,7 @@ public class EventsCanvas : MonoBehaviour
     
     private void OnDestroy()
     {
-        Signals.Get<SpeakAreaEntered>().RemoveListener(StartText);
+        Signals.Get<AreaActiveZoneEntered>().RemoveListener(StartText);
         Signals.Get<TextEndSignal>().RemoveListener(UnblockRays);
     }
 }

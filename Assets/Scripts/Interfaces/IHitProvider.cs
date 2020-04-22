@@ -2,6 +2,11 @@ using UnityEngine;
 
 public interface IHitProvider
 {
-    bool HitByLayer(out RaycastHit hit);
+    Camera CurrentCamera { get; }
+    
+    bool HitByPreDefinedLayer(out RaycastHit hit);
+    
     bool HitAnyLayer(out RaycastHit hit);
+
+    bool HitByCustomLayer(LayerMask layerMask, out RaycastHit hit);
 }

@@ -18,7 +18,7 @@ public class TextWriter : MonoBehaviour
 
     private void Start()
     {
-        Signals.Get<SpeakAreaEntered>().AddListener(WriteText);
+        Signals.Get<AreaActiveZoneEntered>().AddListener(WriteText);
     }
 
     private void Update()
@@ -68,6 +68,6 @@ public class TextWriter : MonoBehaviour
 
     private void OnDestroy()
     {
-        Signals.Get<SpeakAreaEntered>().RemoveListener(WriteText);
+        Signals.Get<AreaActiveZoneEntered>().RemoveListener(WriteText);
     }
 }

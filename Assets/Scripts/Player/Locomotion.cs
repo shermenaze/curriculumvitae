@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.AI;
 
-public class LocomotionSimpleAgent : MonoBehaviour
+public class Locomotion : MonoBehaviour
 {
     [SerializeField] private float _stoppingVelocity = 0.5f;
     
@@ -27,6 +27,11 @@ public class LocomotionSimpleAgent : MonoBehaviour
 
     void Update()
     {
+        Move();
+    }
+
+    private void Move()
+    {
         Vector3 worldDeltaPosition = _agent.nextPosition - transform.position;
 
         // Map 'worldDeltaPosition' to local space
@@ -41,8 +46,9 @@ public class LocomotionSimpleAgent : MonoBehaviour
         // Update velocity if delta time is safe
         if (Time.deltaTime > 1e-5f)
             _velocity = _smoothDeltaPosition / Time.deltaTime;
-        
-        bool shouldMove = _velocity.magnitude > _stoppingVelocity && _agent.remainingDistance > _agent.radius - 0.2f;
+
+        bool shouldMove = _velocity.magnitude > _stoppingVelocity
+                          && _agent.remainingDistance > _agent.radius - 0.2f;
 
         // Update animation parameters
         _anim.SetBool(Walking, shouldMove);

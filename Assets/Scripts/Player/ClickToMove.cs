@@ -21,7 +21,7 @@ public class ClickToMove : MonoBehaviour
         
         if (Input.GetMouseButton(0))
         {
-            if (_hitByRayProvider.HitByLayer(out var hit))
+            if (_hitByRayProvider.HitByPreDefinedLayer(out var hit))
                 agent.destination = hit.point;
         }
     }

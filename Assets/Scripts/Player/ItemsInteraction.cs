@@ -1,13 +1,14 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemsInteraction : MonoBehaviour
 {
     [SerializeField] private Transform _parent;
+    [SerializeField] private LayerMask _layerMask;
 
+    public GameObject ItemInHand { get; private set; }
+    
     private IHitProvider _hitProvider;
+    private IInteractable _interact;
 
     private void Awake()
     {
@@ -16,17 +17,40 @@ public class ItemsInteraction : MonoBehaviour
 
     void Update()
     {
-        if (!_hitProvider.HitAnyLayer(out var hit)) return;
+        Interact();
+    }
 
-        var pickUp = hit.transform.GetComponent<IPickupable>();
-        var interact = hit.transform.GetComponent<IInteractable>();
-
-        interact?.Highlight();
-
-        if (Input.GetMouseButtonDown(0))
+    private void Interact()
+    {
+        if (_hitProvider.HitByCustomLayer(_layerMask, out var hit))
         {
-            interact?.Interact();
-            pickUp?.PickUp(_parent);
+            var item = hit.transform.GetComponent<Item>();
+            var pickUp = hit.transform.GetComponent<IPickupable>();
+            _interact = hit.transform.GetComponent<IInteractable>();
+
+            _interact?.Highlight(true);
+
+            if (Input.GetMouseButtonDown(0))
+            {
+                _interact?.Interact();
+                //TODO: Should I get an itemSO return type and instantiate it here?
+                if (pickUp != null)
+                {
+                    pickUp.PickUp(_parent, out var itemGo);
+                    ItemInHand = itemGo;
+                }
+            }
         }
+        else
+        {
+            _interact?.Highlight(false);
+            _interact = null;
+        }
+    }
+
+    public void DestroyItemInHand()
+    {
+        Destroy(ItemInHand);
+        ItemInHand = null;
     }
 }
