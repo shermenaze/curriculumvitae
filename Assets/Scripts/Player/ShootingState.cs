@@ -2,6 +2,8 @@ using UnityEngine;
 
 public class ShootingState : PlayerBaseState
 {
+    #region Fields
+
     private readonly IHitProvider _hitProvider;
     private readonly Transform _transform;
     private readonly Animator _animator;
@@ -9,9 +11,15 @@ public class ShootingState : PlayerBaseState
     private float _timePassed;
     private float _timeBetweenShots = 1f;
 
+    #endregion
+
+    #region Animation Hashs
+
     private static readonly int ReadyToFight = Animator.StringToHash("ReadyToFight");
     private static readonly int ReadyToShoot = Animator.StringToHash("ReadyToShoot");
     private static readonly int Shoot = Animator.StringToHash("Shoot");
+
+    #endregion
 
     public ShootingState(PlayerController controller) : base(controller)
     {

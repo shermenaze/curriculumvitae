@@ -28,7 +28,7 @@ public class TextBubble : MonoBehaviour
         _animate.AnimOut();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Signals.Get<AreaActiveZoneEntered>().RemoveListener(StartText);
     }

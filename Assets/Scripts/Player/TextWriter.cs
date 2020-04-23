@@ -52,7 +52,7 @@ public class TextWriter : MonoBehaviour
     {
         _shouldWrite = false;
 
-        if(_currentText == _area.TextSo.EventText) _area.AreaEvent();
+        if(_currentText == _area.TextSo.EventTextNumber) _area.TextSo.OnTextEvent?.Invoke();
         
         var charList = TextSo._texts[_currentText].ToCharArray();
 
@@ -66,7 +66,7 @@ public class TextWriter : MonoBehaviour
         _currentText++;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Signals.Get<AreaActiveZoneEntered>().RemoveListener(WriteText);
     }

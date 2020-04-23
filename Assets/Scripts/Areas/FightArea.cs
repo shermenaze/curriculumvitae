@@ -16,6 +16,7 @@ public class FightArea : Area
     private void Start()
     {
         Signals.Get<OnBugDeath>().AddListener(BugKilled);
+        _textSo.OnTextEvent += AreaEvent;
     }
 
     public override void AreaEvent()
@@ -51,14 +52,13 @@ public class FightArea : Area
         _weaponContainer.transform.parent = null;
         _weaponContainer.GetComponent<Animator>().SetBool(PopIn, true);
         Destroy(_weaponContainer.gameObject, 2);
-
-        gameObject.SetActive(false);
+        
+        if(_playerController) _playerController.SetState(PlayerStates.Walking); //TODO: Move to OnDisable()
+        //gameObject.SetActive(false);
     }
 
     private void OnDisable()
     {
-        Debug.Log($"{name}, was disabled - player to walking state");
-        if(_playerController)
-            _playerController.SetState(PlayerStates.Walking);
+        if(_playerController) _playerController.SetState(PlayerStates.Walking);
     }
 }

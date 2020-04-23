@@ -11,6 +11,8 @@ public class Bug : MonoBehaviour
     
     public bool IsAlive => _isAlive;
 
+    #region Fields
+
     private Animator _animator;
     private Vector3 _localInstantiatePoint;
     private Vector3 _globalInstantiatePoint;
@@ -18,9 +20,15 @@ public class Bug : MonoBehaviour
     private bool _isAlive = true;
     private const float TimeToWait = 1.8f;
 
+    #endregion
+
+    #region Animation Hashs
+
     private static readonly int TakeDamage = Animator.StringToHash("TakeDamage");
     private static readonly int Die = Animator.StringToHash("Die");
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
+
+    #endregion
 
 
     private void Awake()
@@ -67,7 +75,7 @@ public class Bug : MonoBehaviour
         _animator.SetTrigger(Die);
         Signals.Get<OnBugDeath>().Dispatch();
         StartCoroutine(Dissolve());
-        Destroy(gameObject, 3f);
+        Destroy(gameObject, TimeToWait + 0.2f);
     }
 
     private IEnumerator Dissolve()

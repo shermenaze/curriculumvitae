@@ -2,7 +2,7 @@
 
 public class AreaActiveZoneEntered : ASignal<Area> { }
 
-public class AreaActiveZone : MonoBehaviour
+public class ActivateAreaZone : MonoBehaviour
 {
     [SerializeField] private Area _area;
 
