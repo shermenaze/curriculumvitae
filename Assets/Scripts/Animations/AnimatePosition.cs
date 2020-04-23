@@ -3,24 +3,52 @@ using DG.Tweening;
 
 public class AnimatePosition : MonoBehaviour, IAnimate
 {
-    [SerializeField] private Ease _animIn;
-    [SerializeField] private Ease _animOut;
+    [SerializeField] private Ease _easeIn;
+    [SerializeField] private Ease _easeOut;
     [SerializeField] private float _duration = 1f;
+    [SerializeField] private bool _verticalAnimation = true;
+    [SerializeField] private float _animInEndPosition;
+    [SerializeField] private float _animOutEndPosition;
 
-    private RectTransform _rect;
-
-    private void Awake()
+    private Vector3 AnimInVector
     {
-        _rect = GetComponent<RectTransform>();
+        get
+        {
+            var localPosition = transform.localPosition;
+            
+            var animInVector = new Vector3 {
+                x = _verticalAnimation ? localPosition.x : _animInEndPosition,
+                y = _verticalAnimation ? _animInEndPosition : localPosition.y,
+                z = localPosition.z
+            };
+            return animInVector;
+        }
+    }
+    private Vector3 AnimOutVector
+    {
+        get
+        {
+            var localPosition = transform.localPosition;
+            
+            var animOutVector = new Vector3 {
+                x = _verticalAnimation ? localPosition.x : _animOutEndPosition,
+                y = _verticalAnimation ? _animOutEndPosition : localPosition.y,
+                z = localPosition.z
+            };
+            return animOutVector;
+        }
     }
 
+    [ContextMenu("AnimIn")]
     public void AnimIn()
     {
-        _rect.DOLocalMove(new Vector3(0, 457), _duration).SetEase(_animIn, 0.2f, 10f);
+        Debug.Log("Anim in");
+        transform.DOLocalMove(AnimInVector, _duration).SetEase(_easeIn, 0.2f, 1f);
     }
 
+    [ContextMenu("AnimOut")]
     public void AnimOut()
     {
-        _rect.DOLocalMove(new Vector3(0, 631), _duration).SetEase(_animOut, 0.2f, 10f);
+        transform.DOLocalMove(AnimOutVector, _duration).SetEase(_easeOut, 0.2f, 1f);
     }
 }

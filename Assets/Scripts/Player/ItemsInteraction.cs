@@ -24,7 +24,6 @@ public class ItemsInteraction : MonoBehaviour
     {
         if (_hitProvider.HitByCustomLayer(_layerMask, out var hit))
         {
-            var item = hit.transform.GetComponent<Item>();
             var pickUp = hit.transform.GetComponent<IPickupable>();
             _interact = hit.transform.GetComponent<IInteractable>();
 

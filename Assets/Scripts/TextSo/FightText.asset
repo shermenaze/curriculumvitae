@@ -10,13 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
-  m_Name: FightArea
+  m_Name: FightText
   m_EditorClassIdentifier: 
-  _eventText: 3
+  _eventTextNumber: 4
   _texts:
   - So for my first work ever, I would like to....
   - What the hell?
-  - 'Did you hear that?
-
-    Sounds like...'
+  - Did you hear that?
+  - Sounds like...
   - Bugs.

@@ -18,7 +18,7 @@ public class TextBubble : MonoBehaviour
         Signals.Get<TextEndSignal>().AddListener(EndText);
     }
 
-    private void StartText(Area area)
+    private void StartText(TextSO textSo)
     {
         _animate.AnimIn();
     }
@@ -28,7 +28,7 @@ public class TextBubble : MonoBehaviour
         _animate.AnimOut();
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Signals.Get<AreaActiveZoneEntered>().RemoveListener(StartText);
     }

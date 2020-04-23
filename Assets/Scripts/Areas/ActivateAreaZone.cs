@@ -1,16 +1,16 @@
 ﻿using UnityEngine;
 
-public class AreaActiveZoneEntered : ASignal<Area> { }
+public class AreaActiveZoneEntered : ASignal<TextSO> { }
 
-public class AreaActiveZone : MonoBehaviour
+public class ActivateAreaZone : MonoBehaviour
 {
-    [SerializeField] private Area _area;
+    [SerializeField] private TextSO _textSo;
 
     private void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
         {
-            Signals.Get<AreaActiveZoneEntered>().Dispatch(_area);
+            Signals.Get<AreaActiveZoneEntered>().Dispatch(_textSo);
             GetComponent<Collider>().enabled = false;
         }
     }

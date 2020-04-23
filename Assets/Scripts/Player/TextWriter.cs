@@ -10,7 +10,6 @@ public class TextWriter : MonoBehaviour
 
     public TextSO TextSo => _textSo;
 
-    private Area _area;
     private TextSO _textSo;
     private int _currentText;
     private bool _shouldWrite;
@@ -41,10 +40,9 @@ public class TextWriter : MonoBehaviour
         }
     }
 
-    private void WriteText(Area area)
+    private void WriteText(TextSO textSo)
     {
-        _area = area;
-        _textSo = area.TextSo;
+        _textSo = textSo;
         StartCoroutine(PerCharWriter());
     }
 
@@ -52,7 +50,7 @@ public class TextWriter : MonoBehaviour
     {
         _shouldWrite = false;
 
-        if(_currentText == _area.TextSo.EventText) _area.AreaEvent();
+        if(_currentText == _textSo.EventTextNumber) _textSo.OnTextEvent?.Invoke();
         
         var charList = TextSo._texts[_currentText].ToCharArray();
 
@@ -66,7 +64,7 @@ public class TextWriter : MonoBehaviour
         _currentText++;
     }
 
-    private void OnDestroy()
+    private void OnDisable()
     {
         Signals.Get<AreaActiveZoneEntered>().RemoveListener(WriteText);
     }

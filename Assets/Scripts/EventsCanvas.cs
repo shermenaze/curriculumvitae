@@ -8,14 +8,11 @@ public class EventsCanvas : MonoBehaviour
 
     private void Start()
     {
-        Signals.Get<AreaActiveZoneEntered>().AddListener(StartText);
+        Signals.Get<AreaActiveZoneEntered>().AddListener(BlockRays);
         Signals.Get<TextEndSignal>().AddListener(UnblockRays);
-        
-        Signals.Get<NotificationSent>().AddListener(SendNotification);
-        Signals.Get<NotificationDone>().AddListener(NotificationDone);
     }
 
-    private void BlockRays()
+    private void BlockRays(TextSO textSo)
     {
         _rayBlocker.SetActive(true);
     }
@@ -25,18 +22,6 @@ public class EventsCanvas : MonoBehaviour
         _rayBlocker.SetActive(false);
     }
 
-    private void StartText(Area area)
-    {
-        BlockRays();
-    }
-    
-    private void SendNotification(NotificationSO notificationSo)
-    {
-        BlockRays();
-        _DarkeningPanel.SetActive(true);
-        _notifications.SetNotification(notificationSo);
-    }
-    
     public void NotificationDone()
     {
         UnblockRays();
@@ -44,9 +29,9 @@ public class EventsCanvas : MonoBehaviour
         _notifications.NotificationDone();
     }
     
-    private void OnDestroy()
+    private void OnDisable()
     {
-        Signals.Get<AreaActiveZoneEntered>().RemoveListener(StartText);
+        Signals.Get<AreaActiveZoneEntered>().RemoveListener(BlockRays);
         Signals.Get<TextEndSignal>().RemoveListener(UnblockRays);
     }
 }

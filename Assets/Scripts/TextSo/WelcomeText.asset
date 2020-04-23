@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
   m_Name: WelcomeText
   m_EditorClassIdentifier: 
-  _eventText: 2
+  _eventTextNumber: 0
   _texts:
   - 'Oh hey there!
 

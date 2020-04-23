@@ -1,5 +1,6 @@
 public enum PlayerStates
 {
     Shoot,
-    Walking
+    Walking,
+    Talking
 }
