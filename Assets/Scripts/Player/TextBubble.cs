@@ -14,7 +14,7 @@ public class TextBubble : MonoBehaviour
 
     private void Start()
     {
-        Signals.Get<AreaActiveZoneEntered>().AddListener(StartText);
+        Signals.Get<TextReceived>().AddListener(StartText);
         Signals.Get<TextEndSignal>().AddListener(EndText);
     }
 
@@ -30,6 +30,6 @@ public class TextBubble : MonoBehaviour
 
     private void OnDisable()
     {
-        Signals.Get<AreaActiveZoneEntered>().RemoveListener(StartText);
+        Signals.Get<TextReceived>().RemoveListener(StartText);
     }
 }

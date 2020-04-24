@@ -42,7 +42,6 @@ public class AnimatePosition : MonoBehaviour, IAnimate
     [ContextMenu("AnimIn")]
     public void AnimIn()
     {
-        Debug.Log("Anim in");
         transform.DOLocalMove(AnimInVector, _duration).SetEase(_easeIn, 0.2f, 1f);
     }
 

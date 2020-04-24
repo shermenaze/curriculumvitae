@@ -13,35 +13,45 @@ public class TextWriter : MonoBehaviour
     private TextSO _textSo;
     private int _currentText;
     private bool _shouldWrite;
+    private float _timer;
     private const float PerCharWait = 0.05f;
 
     private void Start()
     {
-        Signals.Get<AreaActiveZoneEntered>().AddListener(WriteText);
+        Signals.Get<TextReceived>().AddListener(WriteText);
     }
 
     private void Update()
     {
-        if (!_shouldWrite || !Input.GetKeyDown(KeyCode.Space)) return;
+        _timer += Time.deltaTime;
+        bool input = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
         
-        if (TextSo && _currentText < TextSo._texts.Length)
+        if (_shouldWrite && input || _timer >= 3)
         {
-            _text.text = string.Empty;
-            StartCoroutine(PerCharWriter());
-        }
-        else
-        {
-            _text.text = string.Empty;
-            _shouldWrite = false;
-            _currentText = 0;
-            _textSo = null;
-            
-            Signals.Get<TextEndSignal>().Dispatch();
+            _timer = 0;
+
+            if (!TextSo) return;
+            if (_currentText < TextSo._texts.Length)
+            {
+                _text.text = string.Empty;
+                StartCoroutine(PerCharWriter());
+            }
+            else
+            {
+                _text.text = string.Empty;
+                _shouldWrite = false;
+                _currentText = 0;
+                _timer = 0;
+                _textSo = null;
+
+                Signals.Get<TextEndSignal>().Dispatch();
+            }
         }
     }
 
     private void WriteText(TextSO textSo)
     {
+        _timer = 0;
         _textSo = textSo;
         StartCoroutine(PerCharWriter());
     }
@@ -50,7 +60,7 @@ public class TextWriter : MonoBehaviour
     {
         _shouldWrite = false;
 
-        if(_currentText == _textSo.EventTextNumber) _textSo.OnTextEvent?.Invoke();
+        _textSo.FireEvent(_currentText);
         
         var charList = TextSo._texts[_currentText].ToCharArray();
 
@@ -62,10 +72,11 @@ public class TextWriter : MonoBehaviour
 
         _shouldWrite = true;
         _currentText++;
+        _timer = 0;
     }
 
     private void OnDisable()
     {
-        Signals.Get<AreaActiveZoneEntered>().RemoveListener(WriteText);
+        Signals.Get<TextReceived>().RemoveListener(WriteText);
     }
 }

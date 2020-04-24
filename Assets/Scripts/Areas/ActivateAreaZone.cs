@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class AreaActiveZoneEntered : ASignal<TextSO> { }
+public class TextReceived : ASignal<TextSO> { }
 
 public class ActivateAreaZone : MonoBehaviour
 {
@@ -10,7 +10,7 @@ public class ActivateAreaZone : MonoBehaviour
     {
         if (other.CompareTag("Player"))
         {
-            Signals.Get<AreaActiveZoneEntered>().Dispatch(_textSo);
+            Signals.Get<TextReceived>().Dispatch(_textSo);
             GetComponent<Collider>().enabled = false;
         }
     }

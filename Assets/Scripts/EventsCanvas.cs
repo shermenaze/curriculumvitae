@@ -8,7 +8,7 @@ public class EventsCanvas : MonoBehaviour
 
     private void Start()
     {
-        Signals.Get<AreaActiveZoneEntered>().AddListener(BlockRays);
+        Signals.Get<TextReceived>().AddListener(BlockRays);
         Signals.Get<TextEndSignal>().AddListener(UnblockRays);
     }
 
@@ -31,7 +31,7 @@ public class EventsCanvas : MonoBehaviour
     
     private void OnDisable()
     {
-        Signals.Get<AreaActiveZoneEntered>().RemoveListener(BlockRays);
+        Signals.Get<TextReceived>().RemoveListener(BlockRays);
         Signals.Get<TextEndSignal>().RemoveListener(UnblockRays);
     }
 }

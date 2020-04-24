@@ -39,3 +39,8 @@ public class Item : MonoBehaviour, IInteractable, IPickupable
         Destroy(gameObject);
     }
 }
+
+public class HelloKittyItemGun : Item, IPickupable
+{
+    
+}
