@@ -14,7 +14,6 @@ public class FightArea : Area
     private Vector3 _offset = new Vector3(3, 0, -1.5f);
     private PlayerController _playerController;
     private static readonly int PopIn = Animator.StringToHash("PopIn");
-    private static readonly int Interact = Animator.StringToHash("Interact");
     private static readonly int Talking = Animator.StringToHash("Talking");
     private const int TimeToDestroy = 2;
 
