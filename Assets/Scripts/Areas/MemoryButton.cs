@@ -10,11 +10,12 @@ public class MemoryButton : Item
     [SerializeField] private Transform _buttonRotator;
     
     public SpriteRenderer Renderer => _iconSpriteRenderer;
+    public int ButtonNumber => _buttonNumber;
     
     private AnimatePosition _animate;
     private const float VisibleRotation = 0;
     private const float HiddenRotation = 180;
-    public int _buttonNumber;
+    private int _buttonNumber;
     private MemoryGame _memoryGame;
 
     private void Awake()
@@ -22,12 +23,12 @@ public class MemoryButton : Item
         _animate = GetComponent<AnimatePosition>();
     }
 
-    public void PreInit(float waitForAnimOut)
+    public void Init(float waitForAnimOut)
     {
         StartCoroutine(InitialRotation(waitForAnimOut));
     }
 
-    public void Init(MemoryGame memoryGame, int buttonNumber)
+    public void PreInit(MemoryGame memoryGame, int buttonNumber)
     {
         _memoryGame = memoryGame;
         _buttonNumber = buttonNumber;
@@ -35,8 +36,8 @@ public class MemoryButton : Item
 
     public override void Interact()
     {
-        _memoryGame.CheckMatch(_buttonNumber);
         RotateButton();
+        _memoryGame.CheckMatch(this);
     }
 
     private void RotateButton()

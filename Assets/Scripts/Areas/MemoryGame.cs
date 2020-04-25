@@ -12,7 +12,8 @@ public class MemoryGame : MonoBehaviour
     
     private List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
     private Vector3 _buttonPosition = new Vector3(0,-0.5f,0);
-
+    private MemoryButton _currentMemoryButton;
+    
     private const int Lines = 3;
     private const int Columns = 4;
     private const float VerticalSpace = 0.75f;
@@ -33,7 +34,7 @@ public class MemoryGame : MonoBehaviour
                 var button = Instantiate(_memoryButtonGO, _buttonPosition, Quaternion.identity, transform);
                 var randomNumber = GetRandomNumber(sprites, usedNumbers);
                 button.Renderer.sprite = sprites[randomNumber];
-                button.Init(this, randomNumber);
+                button.PreInit(this, randomNumber);
 
                 _memoryButtons.Add(button);
 
@@ -50,7 +51,7 @@ public class MemoryGame : MonoBehaviour
     {
         float timeToWaitForAnimOut = 0;
         
-        _memoryButtons.ForEach(x => x.PreInit(timeToWaitForAnimOut += AddedTime));
+        _memoryButtons.ForEach(x => x.Init(timeToWaitForAnimOut += AddedTime));
     }
     
     private static int GetRandomNumber(IReadOnlyCollection<Sprite> sprites, List<int> usedNumbers)
@@ -73,8 +74,18 @@ public class MemoryGame : MonoBehaviour
         return random;
     }
 
-    public void CheckMatch(int buttonNumber)
+    public void CheckMatch(MemoryButton button)
     {
-        throw new NotImplementedException();
+        if (_currentMemoryButton == null)
+        {
+            _currentMemoryButton = button;
+            return;
+        }
+
+        if (_currentMemoryButton.ButtonNumber == button.ButtonNumber)
+        {
+            Debug.Log("Match!");
+            _currentMemoryButton = null;
+        }
     }
 }
