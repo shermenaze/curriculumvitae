@@ -11,7 +11,13 @@ public class MemoryGame : MonoBehaviour
     [SerializeField] private MemoryButton _memoryButtonGO;
     
     private List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
-    private Vector3 _buttonPosition = Vector3.zero;
+    private Vector3 _buttonPosition = new Vector3(0,-0.5f,0);
+
+    private const int Lines = 3;
+    private const int Columns = 4;
+    private const float VerticalSpace = 0.75f;
+    private const float HorizontalSpace = 0.75f;
+    private const float AddedTime = 0.1f;
 
     private void Start()
     {
@@ -20,30 +26,43 @@ public class MemoryGame : MonoBehaviour
 
         var usedNumbers = new List<int>();
         
-        for (int j = 0; j < 3; j++)
+        for (int j = 0; j < Lines; j++)
         {
-            for (int i = 0; i < 4; i++)
+            for (int i = 0; i < Columns; i++)
             {
                 var button = Instantiate(_memoryButtonGO, _buttonPosition, Quaternion.identity, transform);
-                button.Renderer.sprite = sprites[GetRandomNumber(sprites, usedNumbers)];
-                
+                var randomNumber = GetRandomNumber(sprites, usedNumbers);
+                button.Renderer.sprite = sprites[randomNumber];
+                button.Init(this, randomNumber);
+
                 _memoryButtons.Add(button);
-                
-                _buttonPosition.x += 0.75f;
+
+                _buttonPosition.x += HorizontalSpace;
             }
             
-            _buttonPosition.y += 0.75f;
+            _buttonPosition.z += VerticalSpace;
+            _buttonPosition.x = 0;
         }
     }
 
+    [ContextMenu("Init")]
+    public void Init()
+    {
+        float timeToWaitForAnimOut = 0;
+        
+        _memoryButtons.ForEach(x => x.PreInit(timeToWaitForAnimOut += AddedTime));
+    }
+    
     private static int GetRandomNumber(IReadOnlyCollection<Sprite> sprites, List<int> usedNumbers)
     {
-        var random = Random.Range(0, sprites.Count);
+        int GetRandom() => Random.Range(0, sprites.Count);
+        
+        var random = GetRandom();
         var result = usedNumbers.Exists(x => x == random);
 
         while (result)
         {
-            random = Random.Range(0, sprites.Count);
+            random = GetRandom();
             result = usedNumbers.Exists(x => x == random);
         }
 
@@ -52,5 +71,10 @@ public class MemoryGame : MonoBehaviour
         if (usedNumbers.Count == sprites.Count) usedNumbers.Clear();
 
         return random;
+    }
+
+    public void CheckMatch(int buttonNumber)
+    {
+        throw new NotImplementedException();
     }
 }

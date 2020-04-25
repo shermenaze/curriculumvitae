@@ -7,7 +7,6 @@ public class FightArea : Area
 
     [SerializeField] private Bug[] _bugs;
     [SerializeField] private GameObject _weaponContainer;
-    [SerializeField] private Transform _buttonPole;
     [SerializeField] private Transform _player;
     [SerializeField] private TextSO _fightWonText;
 
@@ -21,17 +20,17 @@ public class FightArea : Area
 
     private void Start()
     {
-        Signals.Get<OnBugDeath>().AddListener(BugKilled);
-
+        _playerController = _player.GetComponent<PlayerController>();
         _startTextSo.AddEvent(AreaEvent);
+        
+        Signals.Get<OnBugDeath>().AddListener(BugKilled);
     }
 
     public override void AreaEvent()
     {
         if (_bugs.Length >= 0) EnableAndRepositionBugs();
         if (_weaponContainer) EnableAndRepositionWeaponContainer();
-
-        _playerController = _player.GetComponent<PlayerController>();
+        
         if(_playerController) _playerController.SetState(PlayerStates.Shoot); //TODO: Create an event
     }
 
@@ -60,22 +59,8 @@ public class FightArea : Area
     private void AreaDoneCleanUp()
     {
         RemoveWeaponContainer();
-
-        //TODO: Move these and the function below to game won
-        //InitiateButtonPole();
-        //_playerController.Animator.SetTrigger(Interact);
         
         PlayerEvents();
-    }
-
-    private void InitiateButtonPole()
-    {
-        //Move _buttonPole to the proper position and AnimateIn
-
-        _buttonPole.position = new Vector3(
-            x: _player.position.x - 0.3f, y: _buttonPole.position.y, _player.position.z - 0.3f);
-        var animate = _buttonPole.GetComponent<IAnimate>();
-        animate?.AnimIn();
     }
 
     private void RemoveWeaponContainer()

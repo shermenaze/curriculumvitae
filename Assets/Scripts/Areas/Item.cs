@@ -15,7 +15,7 @@ public class Item : MonoBehaviour, IInteractable
     }
 
     public virtual void Interact()
-    {//TODO: Remove Debug logs!
+    {
         Debug.Log($"No interaction added{name}");
     }
 
