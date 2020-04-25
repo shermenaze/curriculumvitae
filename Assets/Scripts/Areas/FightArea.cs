@@ -15,6 +15,7 @@ public class FightArea : Area
     private PlayerController _playerController;
     private static readonly int PopIn = Animator.StringToHash("PopIn");
     private static readonly int Interact = Animator.StringToHash("Interact");
+    private static readonly int Talking = Animator.StringToHash("Talking");
     private const int TimeToDestroy = 2;
 
     #endregion
@@ -32,7 +33,7 @@ public class FightArea : Area
         if (_weaponContainer) EnableAndRepositionWeaponContainer();
 
         _playerController = _player.GetComponent<PlayerController>();
-        _playerController.SetState(PlayerStates.Shoot); //TODO: Create an event
+        if(_playerController) _playerController.SetState(PlayerStates.Shoot); //TODO: Create an event
     }
 
     private void EnableAndRepositionWeaponContainer()
@@ -59,17 +60,17 @@ public class FightArea : Area
 
     private void AreaDoneCleanUp()
     {
-        //Animate Out _weaponContainer and destroy it
-        EndWeaponContainer();
+        RemoveWeaponContainer();
 
-        //Move _buttonPole to the proper position and AnimateIn
         InitiateButtonPole();
 
         PlayerEvents();
     }
 
-    private void EndWeaponContainer()
+    private void RemoveWeaponContainer()
     {
+        //Animate Out _weaponContainer and destroy it
+        
         _weaponContainer.transform.parent = null;
         _weaponContainer.GetComponent<Animator>().SetBool(PopIn, true);
         Destroy(_weaponContainer.gameObject, TimeToDestroy);
@@ -77,16 +78,29 @@ public class FightArea : Area
 
     private void InitiateButtonPole()
     {
+        //Move _buttonPole to the proper position and AnimateIn
+
         _buttonPole.position = new Vector3(
-            x: _player.position.x, y: _buttonPole.position.y, _player.position.z - 0.5f);
+            x: _player.position.x - 0.3f, y: _buttonPole.position.y, _player.position.z - 0.3f);
         var animate = _buttonPole.GetComponent<IAnimate>();
         animate?.AnimIn();
     }
 
     private void PlayerEvents()
     {
-        if (_playerController) _playerController.SetState(PlayerStates.Talking);
-        
+        var buttonEvent = _buttonPole.GetComponent<ButtonObject>();
+
+        if (_playerController)
+        {
+            _playerController.SetState(PlayerStates.Talking);
+            _fightWonText.AddEvent(() =>
+            {
+                _playerController.Animator.SetTrigger(Interact);
+                _playerController.Animator.SetBool(Talking, false);
+                if(buttonEvent) buttonEvent.Interact();
+            });
+        }
+
         Signals.Get<TextReceived>().Dispatch(_fightWonText);
     }
 }

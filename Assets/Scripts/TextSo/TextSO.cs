@@ -6,15 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "Texts", fileName = "Text")]
 public class TextSO : ScriptableObject
 {
-    [SerializeField] private int _eventTextNumber;
-
-    [SerializeField] private int[] _eventTextNumbers; //TODO: Can it be an array
-
-    public int EventTextNumber => _eventTextNumber;
+    [SerializeField] private int[] _eventTextNumbers;
 
     [TextArea(2, 4)] public string[] _texts;
-
-    public Action OnTextEvent;
 
     private readonly Dictionary<int, Action> _actions = new Dictionary<int, Action>();
     private readonly Queue<int> _numbersQueue = new Queue<int>();
@@ -48,7 +42,9 @@ public class TextSO : ScriptableObject
 
     public void FireEvent(int textEvent)
     {
-        if (_numbersQueue.Count > 0 && _numbersQueue.Peek() == textEvent)
+        if (_numbersQueue.Count <= 0 || _numbersQueue.Peek() != textEvent) return;
+        
+        if(_actions.ContainsKey(_numbersQueue.Peek()))
             _actions[_numbersQueue.Dequeue()]?.Invoke();
     }
 }

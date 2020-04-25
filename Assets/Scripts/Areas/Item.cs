@@ -1,9 +1,7 @@
 ﻿using UnityEngine;
 
-public class Item : MonoBehaviour, IInteractable, IPickupable
+public class Item : MonoBehaviour, IInteractable
 {
-    [SerializeField] private ItemSO _itemSo;
-
     private MeshRenderer _meshRenderer;
     private readonly Color _selectedColor = Color.green;
     private readonly Color _naturalColor = Color.black;
@@ -13,34 +11,20 @@ public class Item : MonoBehaviour, IInteractable, IPickupable
     private void Awake()
     {
         _meshRenderer = GetComponentInChildren<MeshRenderer>();
+        if(_meshRenderer) _meshRenderer.material.SetColor(RimColor, _naturalColor);
     }
 
-    public void Interact()
+    public virtual void Interact()
     {
-        //TODO: Add interaction
+        Debug.Log($"No interaction added{name}");
     }
 
     public void Highlight(bool shouldHighlight)
     {
         if (!_meshRenderer) return;
+        
         //TODO: Don't change color if color is set to the correct one.
         _meshRenderer.material.SetColor(RimColor,
             shouldHighlight ? _selectedColor : _naturalColor);
     }
-
-    public void PickUp(Transform parent, out GameObject item)
-    {
-        var thisItem = Instantiate(_itemSo.Prefab, parent.localPosition, parent.localRotation, parent);
-        thisItem.transform.position = parent.position;
-        thisItem.transform.rotation = parent.rotation;
-        
-        item = thisItem;
-
-        Destroy(gameObject);
-    }
-}
-
-public class HelloKittyItemGun : Item, IPickupable
-{
-    
 }

@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
   m_Name: FightWonText
   m_EditorClassIdentifier: 
-  _eventTextNumber: 2
-  _eventTextNumbers: 02000000
+  _eventTextNumbers: 04000000
   _texts:
   - The Hello Kitty is strong with you.
   - Thank god for those shaders!
   - On to some of my projects.
+  - Everything was custom built.
