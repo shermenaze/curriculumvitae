@@ -12,12 +12,12 @@ GameObject:
   - component: {fileID: 1841067682861787077}
   - component: {fileID: 1841067682861787073}
   m_Layer: 0
-  m_Name: SpeakArea_Computer
+  m_Name: AreaActiveZone
   m_TagString: Speak
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1841067682861787072
 Transform:
   m_ObjectHideFlags: 0
@@ -57,4 +57,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 58f4004d86b918541995c0ff0d638bf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _textObject: {fileID: 11400000, guid: 533be6d7d373dd448837e00bdfd47b27, type: 2}
+  _textSo: {fileID: 0}

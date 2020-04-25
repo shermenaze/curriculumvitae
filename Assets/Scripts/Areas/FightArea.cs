@@ -62,18 +62,11 @@ public class FightArea : Area
     {
         RemoveWeaponContainer();
 
-        InitiateButtonPole();
-
-        PlayerEvents();
-    }
-
-    private void RemoveWeaponContainer()
-    {
-        //Animate Out _weaponContainer and destroy it
+        //TODO: Move these and the function below to game won
+        //InitiateButtonPole();
+        //_playerController.Animator.SetTrigger(Interact);
         
-        _weaponContainer.transform.parent = null;
-        _weaponContainer.GetComponent<Animator>().SetBool(PopIn, true);
-        Destroy(_weaponContainer.gameObject, TimeToDestroy);
+        PlayerEvents();
     }
 
     private void InitiateButtonPole()
@@ -86,18 +79,24 @@ public class FightArea : Area
         animate?.AnimIn();
     }
 
+    private void RemoveWeaponContainer()
+    {
+        //Animate Out _weaponContainer and destroy it
+        
+        _weaponContainer.transform.parent = null;
+        _weaponContainer.GetComponent<Animator>().SetBool(PopIn, true);
+        Destroy(_weaponContainer.gameObject, TimeToDestroy);
+    }
+
     private void PlayerEvents()
     {
-        var buttonEvent = _buttonPole.GetComponent<ButtonObject>();
-
         if (_playerController)
         {
             _playerController.SetState(PlayerStates.Talking);
             _fightWonText.AddEvent(() =>
             {
-                _playerController.Animator.SetTrigger(Interact);
                 _playerController.Animator.SetBool(Talking, false);
-                if(buttonEvent) buttonEvent.Interact();
+                _playerController.SetState(PlayerStates.Walking);
             });
         }
 

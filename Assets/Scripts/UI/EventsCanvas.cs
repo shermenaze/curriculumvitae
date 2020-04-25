@@ -4,7 +4,6 @@ public class EventsCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject _rayBlocker;
     [SerializeField] private GameObject _DarkeningPanel;
-    [SerializeField] private Notifications _notifications;
 
     private void Start()
     {
@@ -22,13 +21,6 @@ public class EventsCanvas : MonoBehaviour
         _rayBlocker.SetActive(false);
     }
 
-    public void NotificationDone()
-    {
-        UnblockRays();
-        _DarkeningPanel.SetActive(false);
-        _notifications.NotificationDone();
-    }
-    
     private void OnDisable()
     {
         Signals.Get<TextReceived>().RemoveListener(BlockRays);
