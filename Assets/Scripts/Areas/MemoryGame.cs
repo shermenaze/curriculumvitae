@@ -1,19 +1,22 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.U2D;
 using Random = UnityEngine.Random;
 
+public class OnMemoryGameWon : ASignal { }
+
 public class MemoryGame : MonoBehaviour
 {
     [SerializeField] private SpriteAtlas _gamePadsAtlas;
     [SerializeField] private MemoryButton _memoryButtonGO;
-    
+    [SerializeField] private ParticleSystem _particles;
+
     private List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
-    private Vector3 _buttonPosition = new Vector3(0,-0.5f,0);
+    private Vector3 _buttonPosition = new Vector3(0, -0.5f, 0);
     private MemoryButton _currentMemoryButton;
-    
+    private int _matches;
+
     private const int Lines = 3;
     private const int Columns = 4;
     private const float VerticalSpace = 0.75f;
@@ -26,7 +29,7 @@ public class MemoryGame : MonoBehaviour
         _gamePadsAtlas.GetSprites(sprites);
 
         var usedNumbers = new List<int>();
-        
+
         for (int j = 0; j < Lines; j++)
         {
             for (int i = 0; i < Columns; i++)
@@ -40,7 +43,7 @@ public class MemoryGame : MonoBehaviour
 
                 _buttonPosition.x += HorizontalSpace;
             }
-            
+
             _buttonPosition.z += VerticalSpace;
             _buttonPosition.x = 0;
         }
@@ -49,15 +52,15 @@ public class MemoryGame : MonoBehaviour
     [ContextMenu("Init")]
     public void Init()
     {
-        float timeToWaitForAnimOut = 0;
-        
-        _memoryButtons.ForEach(x => x.Init(timeToWaitForAnimOut += AddedTime));
+        float timeToWaitForAnimIn = 0;
+
+        _memoryButtons.ForEach(x => x.Init(timeToWaitForAnimIn += AddedTime));
     }
-    
+
     private static int GetRandomNumber(IReadOnlyCollection<Sprite> sprites, List<int> usedNumbers)
     {
         int GetRandom() => Random.Range(0, sprites.Count);
-        
+
         var random = GetRandom();
         var result = usedNumbers.Exists(x => x == random);
 
@@ -68,24 +71,63 @@ public class MemoryGame : MonoBehaviour
         }
 
         usedNumbers.Add(random);
-        
+
         if (usedNumbers.Count == sprites.Count) usedNumbers.Clear();
 
         return random;
     }
 
+    /// <summary>
+    /// Rotate chosen button, and check if the last 2 chosen buttons match
+    /// </summary>
+    /// <param name="button">The button to check</param>
     public void CheckMatch(MemoryButton button)
     {
+        button.RotateButton(false);
+        
+        //If there is no chosen button, then this is the _currentButton
         if (_currentMemoryButton == null)
         {
             _currentMemoryButton = button;
-            return;
         }
-
-        if (_currentMemoryButton.ButtonNumber == button.ButtonNumber)
+        //If there is a chosen button - Does his index and the new button's the same?
+        else if (_currentMemoryButton.ButtonNumber == button.ButtonNumber)
         {
-            Debug.Log("Match!");
+            if ((_matches += 2) >= _memoryButtons.Count) MemoryGameWon();
+            
             _currentMemoryButton = null;
         }
+        //The indices of the chosen buttons don't match, rotate them and return.
+        else
+        {
+            const float delay = 1.5f;
+            
+            button.RotateButton(false, 0.8f);
+            _currentMemoryButton.RotateButton(false, 0.8f);
+            _currentMemoryButton = null;
+
+            StartCoroutine(DisableButtonColliders(delay));
+        }
+    }
+
+    [ContextMenu("MemoryGameWon")]
+    private void MemoryGameWon()
+    {
+        float timeToWaitForAnimIn = 0;
+        
+        _memoryButtons.ForEach(x => x.GameWon());
+        _particles.Play(true);
+    }
+
+    /// <summary>
+    /// Disable colliders on all buttons for a set amount of time
+    /// </summary>
+    /// <param name="waitAmount">Delay between disable and reenable each button collider</param>
+    /// <returns></returns>
+    private IEnumerator DisableButtonColliders(float waitAmount)
+    {
+        _memoryButtons.ForEach(x => x.Enabled = false);
+        yield return new WaitForSeconds(waitAmount);
+        _memoryButtons.ForEach(x => x.Enabled = true);
     }
 }

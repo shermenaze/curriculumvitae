@@ -5,6 +5,7 @@ public class MemoryArea : Area
     [SerializeField] private MemoryGame _memoryGame;
     [SerializeField] private Transform _player;
     [SerializeField] private Transform _buttonPole;
+    [SerializeField] private TextSO _gameWonTextSo;
 
     private void Start()
     {
