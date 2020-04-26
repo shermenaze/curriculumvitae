@@ -2,18 +2,23 @@
 using System.Collections;
 using DG.Tweening;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
 public class MemoryButton : Item
 {
     [SerializeField] private SpriteRenderer _iconSpriteRenderer;
     [SerializeField] private Transform _buttonRotator;
-    
+
+    #region Properties
+
     public SpriteRenderer Renderer => _iconSpriteRenderer;
     public int ButtonNumber => _buttonNumber;
     public bool Enabled { set => _collider.enabled = value; }
-    public AnimatePosition Animate => _animate; 
-    
+    public AnimatePosition Animate => _animate;
+
+    #endregion
+
+    #region Fields
+
     private Collider _collider;
     private MemoryGame _memoryGame;
     private AnimatePosition _animate;
@@ -21,6 +26,8 @@ public class MemoryButton : Item
     private int _buttonNumber;
     private const float ShowRotation = 0;
     private const float HideRotation = 180;
+
+    #endregion
 
     private void Awake()
     {

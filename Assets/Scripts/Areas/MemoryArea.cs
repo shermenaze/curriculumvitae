@@ -9,7 +9,11 @@ public class MemoryArea : Area
 
     private void Start()
     {
-        _startTextSo.AddEvent(AreaEvent);
+        _startTextSo.AddEvent(() =>
+        {
+            _player.GetComponent<PlayerController>().SetState(PlayerStates.Talking);
+            AreaEvent();
+        });
     }
 
     public override void AreaEvent()
@@ -30,9 +34,10 @@ public class MemoryArea : Area
         animate?.AnimIn();
     }
     
+    [ContextMenu("RePositionMemoryGame")] //TODO: Remove
     private void RePositionMemoryGame()
     {
-        var newPosition = new Vector3(_player.position.x + 8, transform.position.y, _player.position.z + 2);
+        var newPosition = new Vector3(_player.position.x + 4.5f, transform.position.y, _player.position.z + 0.5f);
         _memoryGame.transform.position = newPosition;
         _memoryGame.Init();
     }

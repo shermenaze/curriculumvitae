@@ -9,8 +9,10 @@ public class OnMemoryGameWon : ASignal { }
 public class MemoryGame : MonoBehaviour
 {
     [SerializeField] private SpriteAtlas _gamePadsAtlas;
-    [SerializeField] private MemoryButton _memoryButtonGO;
+    [SerializeField] private MemoryButton _memoryButtonGo;
     [SerializeField] private ParticleSystem _particles;
+
+    #region Fields
 
     private List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
     private Vector3 _buttonPosition = new Vector3(0, -0.5f, 0);
@@ -23,6 +25,8 @@ public class MemoryGame : MonoBehaviour
     private const float HorizontalSpace = 0.75f;
     private const float AddedTime = 0.1f;
 
+    #endregion
+
     private void Start()
     {
         var sprites = new Sprite[_gamePadsAtlas.spriteCount];
@@ -34,7 +38,7 @@ public class MemoryGame : MonoBehaviour
         {
             for (int i = 0; i < Columns; i++)
             {
-                var button = Instantiate(_memoryButtonGO, _buttonPosition, Quaternion.identity, transform);
+                var button = Instantiate(_memoryButtonGo, _buttonPosition, Quaternion.identity, transform);
                 var randomNumber = GetRandomNumber(sprites, usedNumbers);
                 button.Renderer.sprite = sprites[randomNumber];
                 button.PreInit(this, randomNumber);
@@ -117,6 +121,8 @@ public class MemoryGame : MonoBehaviour
         
         _memoryButtons.ForEach(x => x.GameWon());
         _particles.Play(true);
+        
+        Signals.Get<OnMemoryGameWon>().Dispatch();
     }
 
     /// <summary>

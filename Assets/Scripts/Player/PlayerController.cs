@@ -37,12 +37,13 @@ public class PlayerController : MonoBehaviour
     {
         Signals.Get<TextReceived>().AddListener(StopMoving);
         Signals.Get<TextEndSignal>().AddListener(StartMoving);
+        Signals.Get<OnMemoryGameWon>().AddListener(GameWon);
     }
 
     /// <summary>
     /// Sets the state of the Player
     /// </summary>
-    /// <param name="state"></param>
+    /// <param name="state">Which state to set</param>
     /// <exception cref="ArgumentOutOfRangeException"></exception>
     public void SetState(PlayerStates state)
     {
@@ -58,6 +59,9 @@ public class PlayerController : MonoBehaviour
                 break;
             case PlayerStates.Talking:
                 playerState = new TalkingState(this);
+                break;
+            case PlayerStates.Win:
+                playerState = new WinState(this);
                 break;
             default:
                 throw new ArgumentOutOfRangeException(nameof(state), state, null);
@@ -93,5 +97,20 @@ public class PlayerController : MonoBehaviour
     public void ParentTo(Transform newParent = null, bool worldPositionStays = true)
     {
         transform.SetParent(newParent, worldPositionStays);
+    }
+
+    /// <summary>
+    /// Game won event
+    /// </summary>
+    private void GameWon()
+    {
+        SetState(PlayerStates.Win);
+    }
+
+    private void OnDisable()
+    {
+        Signals.Get<TextReceived>().RemoveListener(StopMoving);
+        Signals.Get<TextEndSignal>().RemoveListener(StartMoving);
+        Signals.Get<OnMemoryGameWon>().RemoveListener(GameWon);
     }
 }
