@@ -7,14 +7,12 @@ public class TextEndSignal : ASignal { }
 public class TextWriter : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI _text;
-
-    public TextSO TextSo => _textSo;
-
+    
     private TextSO _textSo;
     private int _currentText;
     private bool _shouldWrite;
     private float _timer;
-    private const float PerCharWait = 0.05f;
+    private const float PerCharWait = 0.04f;
 
     private void Start()
     {
@@ -23,15 +21,24 @@ public class TextWriter : MonoBehaviour
 
     private void Update()
     {
+        if (!_textSo) return;
+
+        WritingPermissions();
+    }
+
+    /// <summary>
+    /// Decides if the current paragraph needs to be removed and start the new one 
+    /// </summary>
+    private void WritingPermissions()
+    {
         _timer += Time.deltaTime;
         bool input = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
-        
-        if (_shouldWrite && input || _timer >= 3)
+
+        if (_shouldWrite && (input || _timer >= 3))
         {
             _timer = 0;
 
-            if (!TextSo) return;
-            if (_currentText < TextSo._texts.Length)
+            if (_currentText < _textSo._texts.Length)
             {
                 _text.text = string.Empty;
                 StartCoroutine(PerCharWriter());
@@ -49,6 +56,10 @@ public class TextWriter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Accepts a TextSO obj, which starts the text writer system
+    /// </summary>
+    /// <param name="textSo"></param>
     private void WriteText(TextSO textSo)
     {
         _timer = 0;
@@ -56,17 +67,21 @@ public class TextWriter : MonoBehaviour
         StartCoroutine(PerCharWriter());
     }
 
+    /// <summary>
+    /// Adds each char into the text field with a short delay between each
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator PerCharWriter()
     {
         _shouldWrite = false;
 
         _textSo.FireEvent(_currentText);
         
-        var charList = TextSo._texts[_currentText].ToCharArray();
+        var charList = _textSo._texts[_currentText].ToCharArray();
 
-        foreach (var c in charList)
+        foreach (var chr in charList)
         {
-            _text.text += c;
+            _text.text += chr;
             yield return new WaitForSeconds(PerCharWait);
         }
 

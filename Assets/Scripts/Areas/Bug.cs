@@ -73,6 +73,7 @@ public class Bug : MonoBehaviour
 
     private void Kill()
     {
+        _collider.enabled = false;
         transform.parent = null;
         _isAlive = false;
         _animator.SetTrigger(Die);

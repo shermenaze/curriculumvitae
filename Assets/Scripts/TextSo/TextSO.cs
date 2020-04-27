@@ -15,10 +15,15 @@ public class TextSO : ScriptableObject
 
     private void OnEnable()
     {
+        //Adds the event correlated numbers into a queue
         foreach (var textNumber in _eventTextNumbers)
             _numbersQueue.Enqueue(textNumber);
     }
 
+    /// <summary>
+    /// Adds an event into the specific text paragraph the designer chose
+    /// </summary>
+    /// <param name="action"></param>
     public void AddEvent(Action action)
     {
         CheckEventsCapacity();
@@ -31,6 +36,9 @@ public class TextSO : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Checks if the number queue is not empty and that all the specific text numbers are not already filled
+    /// </summary>
     private void CheckEventsCapacity()
     {
         if (_numbersQueue.Count <= 0) Debug.LogError($"No more space for extra events in this {name}");
@@ -39,6 +47,10 @@ public class TextSO : ScriptableObject
             Debug.LogError($"No more space for extra events in this {name}");//TODO: Remove
     }
 
+    /// <summary>
+    /// Fires the event correlating to the textEvent input
+    /// </summary>
+    /// <param name="textEvent">The text event number</param>
     public void FireEvent(int textEvent)
     {
         if (_numbersQueue.Count <= 0 || _numbersQueue.Peek() != textEvent) return;
