@@ -7,10 +7,11 @@ public class FightArea : Area
 
     [SerializeField] private Bug[] _bugs;
     [SerializeField] private GameObject _weaponContainer;
+    [SerializeField] private AudioClip _bugEmergeSound;
     [SerializeField] private Transform _player;
     [SerializeField] private TextSO _fightWonText;
 
-    private Vector3 _offset = new Vector3(3, 0, -1.5f);
+    private Vector3 _offset = new Vector3(3, 0, -3f);
     private PlayerController _playerController;
     private static readonly int PopIn = Animator.StringToHash("PopIn");
     private static readonly int Talking = Animator.StringToHash("Talking");
@@ -21,6 +22,8 @@ public class FightArea : Area
     private void Start()
     {
         _playerController = _player.GetComponent<PlayerController>();
+        if(_playerController) _startTextSo.AddEvent(() => _playerController.SetState(PlayerStates.Talking));
+        
         _startTextSo.AddEvent(AreaEvent);
         
         Signals.Get<OnBugDeath>().AddListener(BugKilled);
@@ -48,18 +51,22 @@ public class FightArea : Area
             bug.gameObject.SetActive(true);
             _offset.z += 3;
         }
+        
+        AudioManager.Instance.PlaySound(_bugEmergeSound, 1f);
     }
 
     private void BugKilled()
     {
         if (_bugs.Any(bug => bug.IsAlive)) return;
+        
+        _playerController.AbleToShoot = false;
+        
         AreaDoneCleanUp();
     }
 
     private void AreaDoneCleanUp()
     {
         RemoveWeaponContainer();
-        
         PlayerEvents();
     }
 
@@ -76,7 +83,7 @@ public class FightArea : Area
     {
         if (_playerController)
         {
-            _playerController.SetState(PlayerStates.Talking);
+            _fightWonText.AddEvent(() => _playerController.SetState(PlayerStates.Talking));
             _fightWonText.AddEvent(() =>
             {
                 _playerController.Animator.SetBool(Talking, false);

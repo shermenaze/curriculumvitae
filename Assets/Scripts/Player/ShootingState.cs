@@ -1,15 +1,19 @@
 using UnityEngine;
 
+
 public class ShootingState : PlayerBaseState
 {
+    [SerializeField] private AudioClip _gunShootSound;
+
     #region Fields
 
     private readonly IHitProvider _hitProvider;
     private readonly Transform _transform;
     private readonly Animator _animator;
-    private PlayerController _playerController;
+    private readonly PlayerController _playerController;
     private float _timePassed;
     private float _timeBetweenShots = 1f;
+    private bool _gunReady;
 
     #endregion
 
@@ -32,34 +36,36 @@ public class ShootingState : PlayerBaseState
     public override void EnterState()
     {
         _animator.SetBool(ReadyToFight, true);
+        _playerController.AbleToShoot = true;
     }
 
     public override void Update()
     {
-        if (_controller.ItemsInteraction.ItemInHand)
-            _animator.SetBool(ReadyToShoot, true);
+        if (_controller.ItemsInteraction.ItemInHand) _animator.SetBool(ReadyToShoot, true);
 
         RotateTowardsMouse();
 
-        if (Input.GetMouseButtonDown(0) && _playerController.ItemsInteraction.ItemInHand)
-            FireWeapon();
+        if (Input.GetMouseButtonDown(0)) FireWeapon();
     }
 
     private void FireWeapon()
     {
-        if (Time.time >= _timePassed + _timeBetweenShots)
+        if (Time.time >= _timePassed + _timeBetweenShots && _gunReady)
         {
             _timePassed = Time.time;
             var shootable = _playerController.ItemsInteraction.ItemInHand.GetComponent<IShootable>();
             
-            if (_animator.GetBool(ReadyToShoot))
+            if (_animator.GetBool(ReadyToShoot) && _playerController.AbleToShoot)
             {
                 if (_hitProvider.HitAnyLayer(out var hit))
-                    shootable.Shoot(hit.transform.CompareTag("Enemy") ? hit.transform : null);
+                    shootable?.Shoot(hit.transform.CompareTag("Enemy") ? hit.transform : null);
 
                 _animator.SetTrigger(Shoot);
+                AudioManager.Instance.PlaySound(_playerController.ShootSound);
             }
         }
+        
+        if(_controller.ItemsInteraction.ItemInHand) _gunReady = true;
     }
 
     private void RotateTowardsMouse()
@@ -81,7 +87,7 @@ public class ShootingState : PlayerBaseState
     {
         if (_animator)
         {
-            _animator.ResetTrigger(Shoot);
+            //_animator.ResetTrigger(Shoot);
             _animator.SetBool(ReadyToShoot, false);
             _animator.SetBool(ReadyToFight, false);
         }

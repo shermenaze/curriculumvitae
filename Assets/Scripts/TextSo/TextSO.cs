@@ -33,18 +33,17 @@ public class TextSO : ScriptableObject
 
     private void CheckEventsCapacity()
     {
-        foreach (var kvp in _actions)
-        {
-            if (_actions.ContainsKey(_eventTextNumbers.Last()))
-                Debug.LogError($"No more space for extra events in this {name}");
-        }
+        if (_numbersQueue.Count <= 0) Debug.LogError($"No more space for extra events in this {name}");
+
+        if (_actions.ContainsKey(_eventTextNumbers.Last()))
+            Debug.LogError($"No more space for extra events in this {name}");//TODO: Remove
     }
 
     public void FireEvent(int textEvent)
     {
         if (_numbersQueue.Count <= 0 || _numbersQueue.Peek() != textEvent) return;
-        
-        if(_actions.ContainsKey(_numbersQueue.Peek()))
+
+        if (_actions.ContainsKey(_numbersQueue.Peek()))
             _actions[_numbersQueue.Dequeue()]?.Invoke();
     }
 }

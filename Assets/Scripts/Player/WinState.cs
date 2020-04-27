@@ -4,10 +4,13 @@ using UnityEngine;
 
 public class WinState : PlayerBaseState
 {
-    private Transform _playerTransform;
+    #region Fields
 
+    private Transform _playerTransform;
     private static readonly int Talking = Animator.StringToHash("Talking");
     private static readonly int Victory = Animator.StringToHash("Victory");
+
+    #endregion
 
     public WinState(PlayerController controller) : base(controller) { }
 

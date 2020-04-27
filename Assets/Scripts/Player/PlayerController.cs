@@ -4,15 +4,19 @@ using UnityEngine.AI;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] private AudioClip _shootSound;
+
     #region Properties
 
     public Animator Animator => _animator;
+    public AudioClip ShootSound => _shootSound;
     public NavMeshAgent NavMeshAgentAgent => _navMeshAgent;
     public IHitProvider HitProvider => _hitByRayProvider;
     public ItemsInteraction ItemsInteraction => _itemsInteraction;
+    public bool AbleToShoot { get; set; }
 
     #endregion
-    
+
     #region Fields
     
     private IHitProvider _hitByRayProvider;
@@ -20,7 +24,7 @@ public class PlayerController : MonoBehaviour
     private Animator _animator;
     private PlayerBaseState _currentState;
     private ItemsInteraction _itemsInteraction;
-    
+
     #endregion
 
     private void Awake()

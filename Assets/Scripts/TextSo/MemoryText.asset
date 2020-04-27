@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
   m_Name: MemoryText
   m_EditorClassIdentifier: 
-  _eventTextNumbers: 06000000
+  _eventTextNumbers: 0000000006000000
   _texts:
   - Lady, or gentelman!
   - For the final piece of the puzzle!
   - And the great reward that awaits!
-  - A game mechanic which has yet to see the light of day!
+  - A game mechanic I've created!
   - I call it...
-  - A memory puzzle...
+  - A Memory Puzzle!
   - It's a memory puzzle.

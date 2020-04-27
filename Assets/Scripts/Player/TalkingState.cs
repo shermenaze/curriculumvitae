@@ -8,10 +8,12 @@ public class TalkingState : PlayerBaseState
 
     private Transform _playerTransform;
     private static readonly int Talking = Animator.StringToHash("Talking");
+    private static readonly int Walking = Animator.StringToHash("Walking");
 
     public override void EnterState()
     {
         _playerTransform = _controller.transform;
+        _controller.Animator.SetBool(Walking, true);
         _controller.Animator.SetBool(Talking, true);
     }
 

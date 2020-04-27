@@ -14,8 +14,8 @@ public class MemoryGame : MonoBehaviour
 
     #region Fields
 
-    private List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
-    private Vector3 _buttonPosition = new Vector3(0, -0.5f, 0);
+    private readonly List<MemoryButton> _memoryButtons = new List<MemoryButton>(); //TODO: Needed?
+    private Vector3 _buttonPosition;// = new Vector3(0, -0.5f, 0);
     private MemoryButton _currentMemoryButton;
     private int _matches;
 
@@ -29,6 +29,8 @@ public class MemoryGame : MonoBehaviour
 
     private void Start()
     {
+        _buttonPosition = transform.position;
+        
         var sprites = new Sprite[_gamePadsAtlas.spriteCount];
         _gamePadsAtlas.GetSprites(sprites);
 
@@ -49,7 +51,7 @@ public class MemoryGame : MonoBehaviour
             }
 
             _buttonPosition.z += VerticalSpace;
-            _buttonPosition.x = 0;
+            _buttonPosition.x = transform.position.x;
         }
     }
 

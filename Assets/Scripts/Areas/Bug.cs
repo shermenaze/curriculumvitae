@@ -8,6 +8,8 @@ public class Bug : MonoBehaviour
 {
     [SerializeField] private GameObject _digoutParticlesPrefab;
     [SerializeField] private Transform _floor;
+    [SerializeField] private AudioClip _bugHitSound;
+    [SerializeField] private AudioClip _bugDeathSound;
     
     public bool IsAlive => _isAlive;
 
@@ -27,14 +29,16 @@ public class Bug : MonoBehaviour
     private static readonly int TakeDamage = Animator.StringToHash("TakeDamage");
     private static readonly int Die = Animator.StringToHash("Die");
     private static readonly int DissolveAmount = Shader.PropertyToID("_DissolveAmount");
+    private Collider _collider;
 
     #endregion
 
 
     private void Awake()
     {
-        var localPosition = transform.localPosition;
         _animator = GetComponent<Animator>();
+        _collider = GetComponent<Collider>();
+        var localPosition = transform.localPosition;
         _localInstantiatePoint = new Vector3(localPosition.x, 0, localPosition.z);
     }
 
@@ -59,13 +63,12 @@ public class Bug : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Bullet"))
-        {
-            //_life--;
-            _animator.SetTrigger(TakeDamage);
-            
-            if (--_life <= 0) Kill();
-        }
+        if (!other.CompareTag("Bullet")) return;
+        
+        _animator.SetTrigger(TakeDamage);
+        AudioManager.Instance.PlaySound(_bugHitSound, 0.5f);
+        
+        if (--_life <= 0) Kill();
     }
 
     private void Kill()
@@ -73,7 +76,10 @@ public class Bug : MonoBehaviour
         transform.parent = null;
         _isAlive = false;
         _animator.SetTrigger(Die);
+        
+        AudioManager.Instance.PlaySound(_bugDeathSound, 0.5f);
         Signals.Get<OnBugDeath>().Dispatch();
+
         StartCoroutine(Dissolve());
         Destroy(gameObject, TimeToWait + 0.2f);
     }

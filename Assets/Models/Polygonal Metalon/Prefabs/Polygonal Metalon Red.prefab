@@ -102,13 +102,15 @@ GameObject:
   - component: {fileID: 4444695180855720}
   - component: {fileID: 95025375702580604}
   - component: {fileID: 5978727516717974414}
+  - component: {fileID: 1102060384}
+  - component: {fileID: 1102060385}
   m_Layer: 0
   m_Name: Polygonal Metalon Red
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4444695180855720
 Transform:
   m_ObjectHideFlags: 0
@@ -118,7 +120,7 @@ Transform:
   m_GameObject: {fileID: 1128758269040250}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.3, y: 0.3, z: 0.3}
   m_Children:
   - {fileID: 4054819628335862}
   - {fileID: 4257765354184968}
@@ -176,6 +178,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
+--- !u!135 &1102060384
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128758269040250}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2.21
+  m_Center: {x: -0.91, y: 0.66, z: 0.41}
+--- !u!114 &1102060385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128758269040250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9297f1561778c44c94b386cec97e661, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _digoutParticlesPrefab: {fileID: 457858070416485609, guid: 2a1d31f6734c7db41b02a056d65fc9d4,
+    type: 3}
+  _floor: {fileID: 0}
+  _bugHitSound: {fileID: 8300000, guid: 0139a8b75129d3c4e8ddd8dab188e4bf, type: 3}
+  _bugDeathSound: {fileID: 8300000, guid: f170c2ebabda931458c4eba9e186c131, type: 3}
 --- !u!1 &1130806907750044
 GameObject:
   m_ObjectHideFlags: 0
@@ -1147,7 +1179,7 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: bcaad48fae9d78948944fe183b6e39fe, type: 2}
+  - {fileID: 2100000, guid: 22270a80e5f06e847a827d65ef2f8a01, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

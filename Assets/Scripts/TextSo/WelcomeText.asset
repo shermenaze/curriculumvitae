@@ -12,12 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
   m_Name: WelcomeText
   m_EditorClassIdentifier: 
-  _eventTextNumber: 0
+  _eventTextNumbers: 00000000
   _texts:
   - 'Oh hey there!
 
     (Press space to continue)'
   - I thought I was alone.
-  - Anyway, my name is Dean, and this is my portfolio.
+  - My name is Dean, and this is my portfolio.
   - Walk with me.
   - Click anywhere to move.
