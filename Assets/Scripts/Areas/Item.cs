@@ -2,7 +2,8 @@
 
 public class Item : MonoBehaviour, IInteractable
 {
-    private MeshRenderer _meshRenderer;
+    [SerializeField] private MeshRenderer _meshRenderer;
+    
     private readonly Color _selectedColor = Color.green;
     private readonly Color _naturalColor = Color.black;
 
@@ -10,20 +11,15 @@ public class Item : MonoBehaviour, IInteractable
 
     private void Awake()
     {
-        _meshRenderer = GetComponentInChildren<MeshRenderer>();
         if(_meshRenderer) _meshRenderer.material.SetColor(RimColor, _naturalColor);
     }
 
-    public virtual void Interact()
-    {
-        Debug.Log($"No interaction added{name}");
-    }
+    public virtual void Interact() { }
 
     public void Highlight(bool shouldHighlight)
     {
         if (!_meshRenderer) return;
         
-        //TODO: Don't change color if color is set to the correct one.
         _meshRenderer.material.SetColor(RimColor,
             shouldHighlight ? _selectedColor : _naturalColor);
     }

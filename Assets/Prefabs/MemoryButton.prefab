@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 5146934515679252551}
   - component: {fileID: 551171125277245178}
   - component: {fileID: 7656670887642281696}
-  - component: {fileID: 6842896092997710913}
+  - component: {fileID: 5518941770833781408}
   m_Layer: 10
   m_Name: MemoryButton
   m_TagString: Untagged
@@ -60,11 +60,10 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: ad8bceb11958be44db7ee51724755f31, type: 2}
+  - {fileID: 2100000, guid: c39b5ef55ce80e14a9337858a0c4cc17, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -883,6 +882,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41524c721391c724da962f1015e523e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _meshRenderer: {fileID: 6133083580783895385}
   _iconSpriteRenderer: {fileID: 5127186864625543217}
   _buttonRotator: {fileID: 8287360233200331414}
 --- !u!114 &7656670887642281696
@@ -903,7 +903,7 @@ MonoBehaviour:
   _verticalAnimation: 1
   _animInEndPosition: 0.5
   _animOutEndPosition: 0
---- !u!65 &6842896092997710913
+--- !u!65 &5518941770833781408
 BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -972,7 +972,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -1839,7 +1838,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -2126,7 +2124,6 @@ SpriteRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:

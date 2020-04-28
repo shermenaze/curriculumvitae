@@ -106,10 +106,10 @@ public class MemoryGame : MonoBehaviour
         //The indices of the chosen buttons don't match, rotate them and return.
         else
         {
-            const float delay = 1.5f;
+            const float delay = 0.8f;
             
-            button.RotateButton(false, 0.8f);
-            _currentMemoryButton.RotateButton(false, 0.8f);
+            button.RotateButton(false, 0.4f);
+            _currentMemoryButton.RotateButton(false, 0.4f);
             _currentMemoryButton = null;
 
             StartCoroutine(DisableButtonColliders(delay));

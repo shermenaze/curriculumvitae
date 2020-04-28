@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: 66ca9bf0145725543a1e8a693589f362
 ModelImporter:
-  serializedVersion: 19300
+  serializedVersion: 26
   internalIDToNameTable:
   - first:
       1: 100000
@@ -290,7 +290,7 @@ ModelImporter:
     second: No Name
   - first:
       21: 2100002
-    second: Material #2
+    second: Material
   - first:
       23: 2300000
     second: //RootNode
@@ -314,7 +314,7 @@ ModelImporter:
     second: Polygonal Metalon
   externalObjects: {}
   materials:
-    materialImportMode: 0
+    importMaterials: 1
     materialName: 0
     materialSearch: 1
     materialLocation: 1
@@ -401,6 +401,7 @@ ModelImporter:
   - b102accb4eb134940ba2ad7b36761f9e
   - 8b293a3eb76e69e41adf2e2cb14ea626
   importAnimation: 1
+  copyAvatar: 0
   humanDescription:
     serializedVersion: 3
     human: []
@@ -412,16 +413,14 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.01
+    globalScale: 1
     rootMotionBoneName: Rig
     hasTranslationDoF: 0
     hasExtraRoot: 1
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
-  avatarSetup: 1
   additionalBone: 0
   userData: 
   assetBundleName: 

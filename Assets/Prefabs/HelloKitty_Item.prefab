@@ -56,7 +56,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -106,4 +105,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dff0dacad7be4a2449503c48bceed437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _itemSo: {fileID: 11400000, guid: 50e17efd35fb4df4584ed18545ae3b36, type: 2}
+  _meshRenderer: {fileID: 1239469566588093346}

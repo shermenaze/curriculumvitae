@@ -7,8 +7,8 @@ public class VideoLoader : MonoBehaviour
 {
     [SerializeField] private VideoPlayer _videoPlayer;
     [SerializeField] private RenderTexture _renderTexture;
-
-    private const string _uriPath = "https://dl.dropbox.com/s/9cn6qg89hq4p47l/Video1H264.mp4";
+    [SerializeField] private string _uriPath;
+    [SerializeField] private bool _playOnStart;
 
     private void Awake()
     {
@@ -27,6 +27,8 @@ public class VideoLoader : MonoBehaviour
         _renderTexture.Release();
         
         _videoPlayer.Prepare();
+        
+        if(_playOnStart) _videoPlayer.prepareCompleted += source => _videoPlayer.Play();
     }
 
     [ContextMenu("AnimateAndPlay")]

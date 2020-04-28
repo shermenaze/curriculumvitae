@@ -292,7 +292,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -327,7 +326,7 @@ MeshCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 0
-  serializedVersion: 4
+  serializedVersion: 3
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
@@ -394,7 +393,7 @@ Transform:
   m_GameObject: {fileID: 5641625944014887934}
   m_LocalRotation: {x: 0, y: -0.5, z: 0, w: 0.8660254}
   m_LocalPosition: {x: 8, y: -3.1, z: -1}
-  m_LocalScale: {x: 1.2964998, y: 1.2965, z: 1.2964998}
+  m_LocalScale: {x: 0.44462165, y: 1.2965, z: 1.2964998}
   m_Children:
   - {fileID: 8574215367868673400}
   - {fileID: 1615505244}
@@ -424,7 +423,6 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -889,3 +887,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _videoPlayer: {fileID: 645037739}
   _renderTexture: {fileID: 8400000, guid: e2e4d55ba2a1ae047be12435c5299356, type: 2}
+  _uriPath: 
+  _playOnStart: 0

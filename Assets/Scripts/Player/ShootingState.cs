@@ -3,8 +3,6 @@ using UnityEngine;
 
 public class ShootingState : PlayerBaseState
 {
-    [SerializeField] private AudioClip _gunShootSound;
-
     #region Fields
 
     private readonly IHitProvider _hitProvider;
