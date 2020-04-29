@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9906afc51ca944e2b7973deddaac53de, type: 3}
   m_Name: FightText
   m_EditorClassIdentifier: 
-  _eventTextNumbers: 0000000004000000
+  _eventTextNumbers: 000000000400000005000000
   _texts:
-  - So for my first work ever, I would like to....
+  - So at the end of this corridor, there's a...
   - What the hell?
   - Did you hear that?
   - Sounds like...
   - Bugs.
+  - Pick a gun! Any gun!

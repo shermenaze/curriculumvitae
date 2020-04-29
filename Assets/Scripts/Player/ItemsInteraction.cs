@@ -6,10 +6,14 @@ public class ItemsInteraction : MonoBehaviour
     [SerializeField] private LayerMask _layerMask;
 
     public GameObject ItemInHand { get; private set; }
-    
+
+    #region Fields
+
     private IHitProvider _hitProvider;
     private IInteractable _interact;
     private IInteractable _previousInteract;
+
+    #endregion
 
     private void Awake()
     {

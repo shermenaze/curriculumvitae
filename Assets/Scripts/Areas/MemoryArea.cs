@@ -1,15 +1,13 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class MemoryArea : Area
 {
     [SerializeField] private MemoryGame _memoryGame;
     [SerializeField] private Transform _screenLookAtPosition;
     [SerializeField] private Transform _player;
-    [SerializeField] private Transform _buttonPole;
     [SerializeField] private TextSO _gameWonTextSo;
     [SerializeField] private FollowTarget _followTarget;
-    [SerializeField] private VideoLoader _videoLoader;
+    [SerializeField] private ScreenRotator _screenRotator;
 
     private static readonly int Talking = Animator.StringToHash("Talking");
     private static readonly int Dance = Animator.StringToHash("Dance");
@@ -37,7 +35,7 @@ public class MemoryArea : Area
         _gameWonTextSo.AddEvent(() =>
         {
             playerController.Animator.SetBool(Dance, true);
-            _videoLoader.AnimateAndPlay();
+            _screenRotator.AnimateAndPlay();
         });
         
         Signals.Get<TextReceived>().Dispatch(_gameWonTextSo);
@@ -51,21 +49,11 @@ public class MemoryArea : Area
     public override void AreaEvent()
     {
         RePositionMemoryGame();
-        
-        //InitiateButtonPole();
-        //_playerController.Animator.SetTrigger(Interact);
     }
-    
-    private void InitiateButtonPole()
-    {
-        //Move _buttonPole to the proper position and AnimateIn
 
-        _buttonPole.position = new Vector3(
-            x: _player.position.x - 0.3f, y: _buttonPole.position.y, _player.position.z - 0.3f);
-        var animate = _buttonPole.GetComponent<IAnimate>();
-        animate?.AnimIn();
-    }
-    
+    /// <summary>
+    /// Reposition the memory game close to the player
+    /// </summary>
     private void RePositionMemoryGame()
     {
         var newPosition = new Vector3(_player.position.x + 2f, -0.5f, _player.position.z + 0.5f);

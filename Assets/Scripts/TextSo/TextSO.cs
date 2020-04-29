@@ -19,6 +19,10 @@ public class TextSO : ScriptableObject
             _numbersQueue.Enqueue(textNumber);
     }
 
+    /// <summary>
+    /// Add an event to the dictionary
+    /// </summary>
+    /// <param name="action">The event to add</param>
     public void AddEvent(Action action)
     {
         CheckEventsCapacity();
@@ -31,6 +35,9 @@ public class TextSO : ScriptableObject
         }
     }
 
+    /// <summary>
+    /// Check if the events indices are not over the limit, and new ones can be added 
+    /// </summary>
     private void CheckEventsCapacity()
     {
         if (_numbersQueue.Count <= 0) Debug.LogError($"No more space for extra events in this {name}");
@@ -39,6 +46,10 @@ public class TextSO : ScriptableObject
             Debug.LogError($"No more space for extra events in this {name}");//TODO: Remove
     }
 
+    /// <summary>
+    /// Fire the associated index event
+    /// </summary>
+    /// <param name="textEvent">The event index</param>
     public void FireEvent(int textEvent)
     {
         if (_numbersQueue.Count <= 0 || _numbersQueue.Peek() != textEvent) return;

@@ -10,11 +10,15 @@ public class TextWriter : MonoBehaviour
 
     public TextSO TextSo => _textSo;
 
+    #region Fields
+
     private TextSO _textSo;
     private int _currentText;
     private bool _shouldWrite;
     private float _timer;
     private const float PerCharWait = 0.05f;
+
+    #endregion
 
     private void Start()
     {
@@ -23,23 +27,34 @@ public class TextWriter : MonoBehaviour
 
     private void Update()
     {
+        WriteTextRestrictions();
+    }
+
+    /// <summary>
+    /// Decide if the next text should be written
+    /// </summary>
+    private void WriteTextRestrictions()
+    {
         _timer += Time.deltaTime;
         bool input = Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0);
-        
-        if (_shouldWrite && input || _timer >= 3)
+
+        if (_shouldWrite && (input || _timer >= 3))
         {
+            _shouldWrite = false;
             _timer = 0;
 
             if (!TextSo) return;
             if (_currentText < TextSo._texts.Length)
             {
+                StopCoroutine(PerCharWriter());//Disgusting, move to Async
                 _text.text = string.Empty;
                 StartCoroutine(PerCharWriter());
             }
             else
             {
-                _text.text = string.Empty;
                 _shouldWrite = false;
+                
+                _text.text = string.Empty;
                 _currentText = 0;
                 _timer = 0;
                 _textSo = null;
@@ -49,6 +64,10 @@ public class TextWriter : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// The function to get called when a TextReceived event is raised
+    /// </summary>
+    /// <param name="textSo"></param>
     private void WriteText(TextSO textSo)
     {
         _timer = 0;
@@ -56,6 +75,10 @@ public class TextWriter : MonoBehaviour
         StartCoroutine(PerCharWriter());
     }
 
+    /// <summary>
+    /// Writes each char with a small delay
+    /// </summary>
+    /// <returns></returns>
     private IEnumerator PerCharWriter()
     {
         _shouldWrite = false;
@@ -63,16 +86,17 @@ public class TextWriter : MonoBehaviour
         _textSo.FireEvent(_currentText);
         
         var charList = TextSo._texts[_currentText].ToCharArray();
-
+        
         foreach (var c in charList)
         {
             _text.text += c;
             yield return new WaitForSeconds(PerCharWait);
         }
 
-        _shouldWrite = true;
         _currentText++;
         _timer = 0;
+        
+        _shouldWrite = true;
     }
 
     private void OnDisable()

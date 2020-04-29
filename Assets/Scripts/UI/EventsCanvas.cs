@@ -3,7 +3,6 @@
 public class EventsCanvas : MonoBehaviour
 {
     [SerializeField] private GameObject _rayBlocker;
-    [SerializeField] private GameObject _DarkeningPanel;
 
     private void Start()
     {

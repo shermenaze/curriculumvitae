@@ -3,12 +3,10 @@
 
 public class TextBubble : MonoBehaviour
 {
-    private TextWriter _textWriter;
     private IAnimate _animate;
 
     private void Awake()
     {
-        _textWriter = GetComponent<TextWriter>();
         _animate = GetComponent<IAnimate>();
     }
 
