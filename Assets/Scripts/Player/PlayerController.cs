@@ -98,11 +98,6 @@ public class PlayerController : MonoBehaviour
         transform.SetParent(null, true);
     }
 
-    public void ParentTo(Transform newParent = null, bool worldPositionStays = true)
-    {
-        transform.SetParent(newParent, worldPositionStays);
-    }
-
     /// <summary>
     /// Game won event
     /// </summary>

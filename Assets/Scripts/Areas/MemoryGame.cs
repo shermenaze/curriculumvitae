@@ -11,6 +11,7 @@ public class MemoryGame : MonoBehaviour
     [SerializeField] private SpriteAtlas _gamePadsAtlas;
     [SerializeField] private MemoryButton _memoryButtonGo;
     [SerializeField] private ParticleSystem _particles;
+    [SerializeField] private AudioClip _gameWonAudioClip;
 
     #region Fields
 
@@ -116,14 +117,12 @@ public class MemoryGame : MonoBehaviour
         }
     }
 
-    [ContextMenu("MemoryGameWon")]
     private void MemoryGameWon()
     {
-        float timeToWaitForAnimIn = 0;
-        
         _memoryButtons.ForEach(x => x.GameWon());
         _particles.Play(true);
-        
+     
+        AudioManager.Instance.PlaySound(_gameWonAudioClip, 0.6f);
         Signals.Get<OnMemoryGameWon>().Dispatch();
     }
 

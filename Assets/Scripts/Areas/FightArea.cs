@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using UnityEngine;
 
 public class FightArea : Area
@@ -25,6 +26,11 @@ public class FightArea : Area
         if(_playerController) _startTextSo.AddEvent(() => _playerController.SetState(PlayerStates.Talking));
         
         _startTextSo.AddEvent(AreaEvent);
+        _startTextSo.AddEvent(() =>
+        {
+            Debug.Log(_weaponContainer);
+            if (_weaponContainer) EnableAndRepositionWeaponContainer();
+        });
         
         Signals.Get<OnBugDeath>().AddListener(BugKilled);
     }
@@ -32,24 +38,29 @@ public class FightArea : Area
     public override void AreaEvent()
     {
         if (_bugs.Length >= 0) EnableAndRepositionBugs();
-        if (_weaponContainer) EnableAndRepositionWeaponContainer();
         
         if(_playerController) _playerController.SetState(PlayerStates.Shoot); //TODO: Create an event
     }
 
+    /// <summary>
+    /// Reposition weapon container next to player
+    /// </summary>
     private void EnableAndRepositionWeaponContainer()
     {
         _weaponContainer.transform.position = _player.position + new Vector3(-0.5f, 0, 1.3f);
         _weaponContainer.SetActive(true);
     }
 
+    /// <summary>
+    /// Reposition bugs close to player
+    /// </summary>
     private void EnableAndRepositionBugs()
     {
         foreach (var bug in _bugs)
         {
             bug.transform.position = _player.position + _offset;
             bug.gameObject.SetActive(true);
-            _offset.z += 3;
+            _offset.z += 4;
         }
         
         AudioManager.Instance.PlaySound(_bugEmergeSound, 1f);
@@ -61,10 +72,13 @@ public class FightArea : Area
         
         _playerController.AbleToShoot = false;
         
-        AreaDoneCleanUp();
+        AreaDone();
     }
 
-    private void AreaDoneCleanUp()
+    /// <summary>
+    /// When the are is won Remove unused items and associate player events
+    /// </summary>
+    private void AreaDone()
     {
         RemoveWeaponContainer();
         PlayerEvents();
@@ -92,5 +106,10 @@ public class FightArea : Area
         }
 
         Signals.Get<TextReceived>().Dispatch(_fightWonText);
+    }
+
+    private void OnDisable()
+    {
+        Signals.Get<OnBugDeath>().RemoveListener(BugKilled);
     }
 }

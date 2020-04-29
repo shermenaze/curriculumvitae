@@ -71,6 +71,11 @@ public class MemoryButton : Item
             .SetEase(Ease.InOutQuint).SetDelay(delay).OnComplete(() => Enabled = enabledWhenDone);
     }
     
+    /// <summary>
+    /// Let player watch the symbols for a set duration and then turn all buttons
+    /// </summary>
+    /// <param name="waitForAnimIn"></param>
+    /// <returns></returns>
     private IEnumerator InitialRotation(float waitForAnimIn)
     {
         yield return new WaitForSeconds(waitForAnimIn);

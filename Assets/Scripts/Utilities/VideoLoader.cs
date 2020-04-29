@@ -1,41 +1,41 @@
 ﻿using System;
-using DG.Tweening;
+using RenderHeads.Media.AVProVideo;
 using UnityEngine;
-using UnityEngine.Video;
 
 public class VideoLoader : MonoBehaviour
 {
-    [SerializeField] private VideoPlayer _videoPlayer;
+    [SerializeField] private MediaPlayer _mediaPlayer;
     [SerializeField] private RenderTexture _renderTexture;
     [SerializeField] private string _uriPath;
-    [SerializeField] private bool _playOnStart;
+    [SerializeField] private Replay _replay;
+    [SerializeField] private bool _playOnAwake;
 
     private void Awake()
     {
-        if (!_videoPlayer) _videoPlayer = GetComponentInChildren<VideoPlayer>();
-        
-        _videoPlayer.playOnAwake = false;
-        
         var result = Uri.TryCreate(_uriPath, UriKind.Absolute, out var uriResult)
                       && uriResult.Scheme == Uri.UriSchemeHttps;
         
-        if (_videoPlayer && result) _videoPlayer.url = _uriPath;
+        if(_mediaPlayer && result) _mediaPlayer.m_VideoPath = _uriPath;
+
+        _mediaPlayer.Events.AddListener(VideoEvents);
     }
 
     private void Start()
     {
+        _mediaPlayer.OpenVideoFromFile(MediaPlayer.FileLocation.AbsolutePathOrURL, _uriPath, false);
         _renderTexture.Release();
-        
-        _videoPlayer.Prepare();
-        
-        if(_playOnStart) _videoPlayer.prepareCompleted += source => _videoPlayer.Play();
     }
-
-    [ContextMenu("AnimateAndPlay")]
-    public void AnimateAndPlay() 
+    
+    private void VideoEvents(MediaPlayer mp, MediaPlayerEvent.EventType et, ErrorCode error)
     {
-        transform.DOLocalMove(new Vector3(-2.17f, 1, 3.65f), 1).SetEase(Ease.InOutQuint)
-            .OnComplete(()=>transform.DORotate(new Vector3(0, -67, -27.5f), 1.5f).SetEase(Ease.InOutQuint)
-                .OnComplete(() => { if (_videoPlayer.isPrepared) _videoPlayer.Play(); }));
+        switch (et)
+            {
+                case MediaPlayerEvent.EventType.FirstFrameReady:
+                    if(_playOnAwake) _mediaPlayer.Play();
+                    break;
+                case MediaPlayerEvent.EventType.FinishedPlaying:
+                    if(_replay) _replay.gameObject.SetActive(true);
+                    break;
+            }
     }
 }
